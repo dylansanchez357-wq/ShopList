@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:ShopList.Gui.ViewModels"
+             xmlns:model="clr-namespace:ShopList.Gui.Models"
              x:DataType="viewmodel:ShopListViewModel"
              x:Class="ShopList.Gui.Views.ShopListPage"
              Title="Lista de compras">
@@ -19,14 +20,15 @@
             <Label
                 Grid.Row="0"
                 Grid.Column="0"
-                Text="Producto:"
+                Text="Producto"
                 VerticalOptions="Center"
                 FontSize="Medium"/>
             <Entry
                 Grid.Row="0"
                 Grid.Column="1"
+                Text="{Binding NombreDelArticulo}"
                 FontSize="Medium"
-                BackgroundColor="LightGray"/>
+                BackgroundColor="#f0f0f0"/>
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
@@ -37,12 +39,14 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 FontSize="Medium"
-                BackgroundColor="LightGray"/>
+                Text="{Binding CantidadAComprar}"
+                BackgroundColor="#f0f0f0"/>
             <Button
                  Grid.Row="0"
                 FontSize="Medium"
                  Grid.Column="2"
-                 Text="+"/>
+                 Text="+"
+                Command="{Binding AgregarShopListItemComand}"/>
             <Button
                 Grid.Row="1"
                 FontSize="Medium"
@@ -52,9 +56,40 @@
         <CollectionView
             Grid.Row="1"
             Grid.Column="0"
-            EmptyView="Aun no se han registrado productos" 
+            SelectionMode="Single"
+            EmptyView="Aún no se han registrado productos" 
             BackgroundColor="#f0f0f0"
             ItemsSource="{Binding Items}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Item">
+                    <Border>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5"/>
+                        </Border.StrokeShape>
+                        <Grid
+                        ColumnDefinitions="Auto,*,Auto"
+                        Padding="8,0"
+                        >
+                        <CheckBox
+                            IsChecked="{Binding Comprado}"
+                            />
+                        <Label
+                            Grid.Column="1"
+                            Text="{Binding Nombre}"
+                            VerticalOptions="Center"
+                            />
+                        <Label
+                            Grid.Column="2"
+                            Text="{Binding Cantidad}"
+                            VerticalOptions="Center"
+                            />
+
+                    </Grid>
+                        
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
 
         </CollectionView>
     </Grid>
