@@ -1,54 +1,60 @@
-﻿using ShopList.Gui.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using ShopList.Gui.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+//using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+//using System.Windows.Input;
 
 namespace ShopList.Gui.ViewModels
 {
-    public class ShopListViewModel :INotifyPropertyChanged
-    {
-      private string _nombreDelArticulo = string.Empty;
-      private int _cantidadAComprar = 1;
+    public partial class ShopListViewModel : ObservableObject
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+
+    {
+        [ObservableProperty]
+        private string _nombreDelArticulo = string.Empty;
+        [ObservableProperty]
+        private int _cantidadAComprar = 1;
+
+        //public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<Item> Items { get; }
 
-        public string NombreDelArticulo
-        {
-            get => _nombreDelArticulo;
-            set
-            {
-                if(value != _nombreDelArticulo)
-                {
-                    _nombreDelArticulo = value;
-                    OnPropertyChanged(nameof(NombreDelArticulo));
-                }
-            }
-        }
+        //public string NombreDelArticulo
+        //{
+        //    get => _nombreDelArticulo;
+        //    set
+        //    {
+        //        if(value != _nombreDelArticulo)
+        //        {
+        //            _nombreDelArticulo = value;
+        //            OnPropertyChanged(nameof(NombreDelArticulo));
+        //        }
+        //    }
+        //}
 
-        public int CantidadAComprar
-        {
-            get => _cantidadAComprar;
-            set
-            {
-                if (value != _cantidadAComprar)
-                {
-                    _cantidadAComprar=value;
-                    OnPropertyChanged(nameof(CantidadAComprar));
-                }
-            }
+        //public int CantidadAComprar
+        //{
+        //    get => _cantidadAComprar;
+        //    set
+        //    {
+        //        if (value != _cantidadAComprar)
+        //        {
+        //            _cantidadAComprar=value;
+        //            OnPropertyChanged(nameof(CantidadAComprar));
+        //        }
+        //    }
 
-        }
+        //}
 
-        public ICommand AgregarShopListItemComand {  
-            get; private set; 
-        }
+        //public ICommand AgregarShopListItemComand {  
+        //    get; private set; 
+        //}
 
 
 
@@ -56,13 +62,15 @@ namespace ShopList.Gui.ViewModels
         {
             Items = new ObservableCollection<Item>();
             CargarDatos();
-            AgregarShopListItemComand =
-            new Command(AgregarShopListItem);
+            //AgregarShopListItemComand =
+            //new Command(AgregarShopListItem);
         }
 
+
+        [RelayCommand]
         public void AgregarShopListItem()
         {
-            if(string.IsNullOrEmpty(NombreDelArticulo)
+            if (string.IsNullOrEmpty(NombreDelArticulo)
                  || CantidadAComprar <= 0)
             {
                 return;
@@ -78,11 +86,14 @@ namespace ShopList.Gui.ViewModels
             Items.Add(item);
             NombreDelArticulo = string.Empty;
             CantidadAComprar = 1;
-                
-            
-        }
 
-        public void 
+
+        }
+        [RelayCommand]
+        public void EliminarShopListItem()
+        {
+
+        }
 
         private void CargarDatos()
         {
@@ -112,12 +123,13 @@ namespace ShopList.Gui.ViewModels
             });
         }
 
-       private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(
-                this, 
-                new PropertyChangedEventArgs(propertyName)
-                );
-        }
+        //   private void OnPropertyChanged(string propertyName)
+        //    {
+        //        PropertyChanged?.Invoke(
+        //            this, 
+        //            new PropertyChangedEventArgs(propertyName)
+        //            );
+        //    }
+        //}
     }
 }
